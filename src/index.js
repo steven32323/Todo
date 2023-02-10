@@ -1,7 +1,7 @@
 'use strict';
 import './style.css';
-import newItem from './addItem';
-import { itemList } from './addItem';
+import tasks from './tasks';
+import { itemList } from './tasks';
 
 const body = document.querySelector('body');
 const createPage = function () {
@@ -73,18 +73,29 @@ form.addEventListener('submit', function (e) {
   form.reset();
 
   //pass values into newItem module
-  newItem(title, description, dueDate, priority);
+  tasks.newTask(title, description, dueDate, priority);
   //   console.log(...itemList);
+  displayList();
+  closeModal();
+});
 
-  // display values in DOM
+// display values in DOM
+const displayList = function () {
   taskList.innerHTML = '';
   itemList.forEach((item, i) => {
     const html = `
-    <li>
-    <div class="listItem data_id=${i}">${item.title}</div> <div class="itemInfo" data_id=${i}>${item.dueDate} ${item.description} ${item.priority}</div>
-    </li>
-    </div>`;
+      <li>
+      <div class="listItem data_id="${i}">${item.title}</div> <div class="itemInfo" data_id="${i}">${item.dueDate} ${item.description} ${item.priority}<button class="remove">Remove</div>
+      </li>
+      </div>`;
     taskList.innerHTML += html;
   });
-  closeModal();
+};
+
+taskList.addEventListener('click', e => {
+  if (e.target.classList.contains('remove')) {
+    let itemId = e.target.parentElement.getAttribute('data_id');
+    itemList.splice(itemId, 1);
+    displayList();
+  }
 });
