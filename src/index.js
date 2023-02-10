@@ -80,7 +80,7 @@ form.addEventListener('submit', function (e) {
 });
 
 // display values in DOM
-const displayList = function () {
+export function displayList() {
   taskList.innerHTML = '';
   itemList.forEach((item, i) => {
     const html = `
@@ -90,12 +90,6 @@ const displayList = function () {
       </div>`;
     taskList.innerHTML += html;
   });
-};
+}
 
-taskList.addEventListener('click', e => {
-  if (e.target.classList.contains('remove')) {
-    let itemId = e.target.parentElement.getAttribute('data_id');
-    itemList.splice(itemId, 1);
-    displayList();
-  }
-});
+taskList.addEventListener('click', e => tasks.deleteTask(e), displayList());
