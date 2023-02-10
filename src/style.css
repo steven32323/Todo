@@ -35,13 +35,14 @@ html {
     border: 1px solid red;
     grid-row: 1/4;
     display: flex;
-    justify-content: center;
-}
-.right ul {
-    display: flex;
+    justify-content: flex-start;
     flex-direction: column;
+}
+.right li {
+    display: flex;
     list-style: none;
     gap: 1vh;
+    justify-content: space-between;
     align-items: center;
 }
 .listItem {

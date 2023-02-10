@@ -2,6 +2,7 @@
 //   console.log("hello");
 // }
 
+export const itemList = [];
 class Todo {
   constructor(title, description, dueDate, priority) {
     this.title = title;
@@ -12,9 +13,15 @@ class Todo {
   display() {
     console.log(this.title, this.description, this.dueDate, this.priority);
   }
+  addItems() {
+    itemList.push(this);
+    // console.log(itemList);
+    return itemList;
+  }
 }
 
-export default function newItem() {
-  const item = new Todo("Clean", "Hoover & Mop", "25/12/23", "high");
-  item.display();
+export default function newItem(title, description, dueDate, priority) {
+  const item = new Todo(title, description, dueDate, priority);
+  //   item.display();
+  item.addItems();
 }
