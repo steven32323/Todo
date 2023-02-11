@@ -13,8 +13,15 @@ const createPage = function () {
         <h1>Add an item to this ToDo list</h1>
         <input type="text" class="title" placeholder="title" required>
         <input type="text" class="description" placeholder="description" required>
-        <input type="num" class="dueDate" placeholder="dueDate" required>
-        <input type ="text" class="priority" placeholder="priority"></input>
+        <input type="date" class="dueDate" placeholder="dueDate" required>
+        <label for="priority">Priority:</label>
+
+        <select name="priorityInput" id="priorityInput">
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+            <option value="ASAP">ASAP</option>
+        </select>
 
         <button type="submit" class="btn-submit">Add item</button>
     </form>
@@ -24,7 +31,7 @@ const createPage = function () {
     <div class="right">
     <button class="addItem"> +</button>
     <h1>Tasks</h1>
-    <div >
+    <div>
     <ul class="tasks">
     </ul>
     </div>
@@ -42,7 +49,7 @@ const form = document.querySelector('form');
 const titleInput = document.querySelector('.title');
 const descriptionInput = document.querySelector('.description');
 const dueDateInput = document.querySelector('.dueDate');
-const priorityInput = document.querySelector('.priority');
+const priorityInput = document.querySelector('#priorityInput');
 
 // Add Item button, event listener and funcion call
 const addItem = document.querySelector('.addItem');
@@ -67,6 +74,7 @@ form.addEventListener('submit', function (e) {
   const title = titleInput.value;
   const description = descriptionInput.value;
   const dueDate = dueDateInput.value;
+  console.log(priorityInput);
   const priority = priorityInput.value;
   form.reset();
 
@@ -83,7 +91,7 @@ export function displayList() {
   itemList.forEach((item, i) => {
     const html = `
       <li>
-      <div class="listItem data_id="${i}">${item.title}</div> <div class="itemInfo" data_id="${i}">${item.dueDate} <span class="descriptionIcon">i</span> ${item.priority}<button class="remove">Remove</div>
+      <div class="listItem data_id="${i}">${item.title}</div> <div class="itemInfo" data_id="${i}">${item.dueDate} <span class="descriptionIcon">i</span> <span class="${item.priority}">${item.priority}</span><button class="remove">Remove</div>
       </li> 
       </div>`;
     taskList.innerHTML += html;
@@ -108,8 +116,8 @@ taskList.addEventListener('click', e => {
     body.insertAdjacentHTML('afterbegin', html);
     const closeModalWindow = document.querySelector('.closeModal');
     closeModalWindow.addEventListener('click', () => {
-      const modal = document.querySelector('.modal.details');
-      modal.remove();
+      const descriptionDetails = document.querySelector('.modal.details');
+      descriptionDetails.remove();
       closeModal();
     });
   }

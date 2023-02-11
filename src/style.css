@@ -16,7 +16,7 @@ html {
 }
 .body {
     display: grid;
-    height: 85vh;
+    height: 82vh;
     grid-template-columns: 1fr 4fr;
     grid-template-rows: repeat(3, 1fr);
 }
@@ -40,14 +40,14 @@ html {
 }
 .right ul {
     display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     list-style: none;
     gap: 1vh;
     justify-content: space-between;
-    align-items: center;
 }
 .listItem {
     width: fit-content;
-    background-color: white;
     border-radius: 20px;
 }
 .clicked {
@@ -106,7 +106,6 @@ form h1 {
     text-align: center;
 }
 .descriptionIcon {
-    display: inline-block;
     border: 1px solid black;
     width: 5vh;
     border-radius: 10px;
@@ -121,6 +120,7 @@ form h1 {
     width: 100%;
     display: flex;
     justify-content: space-between;
+    margin-right: 20vh;
 }
 .details {
     display: flex;
@@ -129,4 +129,27 @@ form h1 {
     align-items: center;
     padding: 4vh;
     overflow: scroll;
+}
+.tasks li:hover {
+    background-color: rgba(128, 128, 128, 0.177);
+}
+.remove {
+    background-color: red;
+    border-radius: 20px;
+}
+.itemInfo {
+    display: flex;
+    gap: 2vh;
+}
+.Low {
+    background-color: green;
+}
+.Medium {
+    background-color: orange;
+}
+.High {
+    background-color: orangered;
+}
+.ASAP {
+    background-color: red;
 }
