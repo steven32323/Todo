@@ -26,9 +26,6 @@ const createPage = function () {
     <h1>Tasks</h1>
     <div >
     <ul class="tasks">
-    <li>
-    <div class="listItem">Buy Paint</div> <div class="itemInfo">20-10-2010 description priority</div>
-    </li>
     </ul>
     </div>
     </div>
@@ -39,6 +36,7 @@ const createPage = function () {
   body.innerHTML = html;
 };
 createPage();
+
 // all the query selectors for handling the form input
 const form = document.querySelector('form');
 const titleInput = document.querySelector('.title');
@@ -50,7 +48,7 @@ const priorityInput = document.querySelector('.priority');
 const addItem = document.querySelector('.addItem');
 const overlay = document.querySelector('.overlay');
 
-// selectors to control the 2 side of the page
+// selectors to control the 2 sides of the page
 const leftSide = document.querySelector('.left');
 const taskList = document.querySelector('.tasks');
 
@@ -85,11 +83,36 @@ export function displayList() {
   itemList.forEach((item, i) => {
     const html = `
       <li>
-      <div class="listItem data_id="${i}">${item.title}</div> <div class="itemInfo" data_id="${i}">${item.dueDate} ${item.description} ${item.priority}<button class="remove">Remove</div>
-      </li>
+      <div class="listItem data_id="${i}">${item.title}</div> <div class="itemInfo" data_id="${i}">${item.dueDate} <span class="descriptionIcon">i</span> ${item.priority}<button class="remove">Remove</div>
+      </li> 
       </div>`;
     taskList.innerHTML += html;
   });
 }
 
-taskList.addEventListener('click', e => tasks.deleteTask(e), displayList());
+taskList.addEventListener('click', e => {
+  if (e.target.classList.contains('remove')) {
+    tasks.deleteTask(e), displayList();
+  }
+  if (e.target.classList.contains('descriptionIcon')) {
+    overlay.classList.remove('hidden');
+    let html = `
+    <div class="modal details">
+    <div class="closeModal">X</div>
+        <div><h3>Title:</h3> ${itemList[0].title}</div>
+        <div><h3>Description:</h3> </div>
+        <div>${itemList[0].description}</div>
+        <div><h3>Due Date:</h3> ${itemList[0].dueDate}</div>
+        <div><h3>Priority:</h3> ${itemList[0].priority}</div>
+    </div>`;
+    body.insertAdjacentHTML('afterbegin', html);
+    const closeModalWindow = document.querySelector('.closeModal');
+    closeModalWindow.addEventListener('click', () => {
+      const modal = document.querySelector('.modal.details');
+      modal.remove();
+      closeModal();
+    });
+  }
+});
+
+displayList();

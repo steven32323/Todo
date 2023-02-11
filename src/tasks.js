@@ -1,6 +1,13 @@
 import { displayList } from '.';
 
-export const itemList = [];
+export const itemList = [
+  {
+    title: 'hello',
+    description: 'This is a more detailed Description',
+    dueDate: '15-2-23',
+    priority: 'High',
+  },
+];
 const tasks = (() => {
   class Task {
     constructor(title, description, dueDate, priority) {
@@ -15,11 +22,9 @@ const tasks = (() => {
     itemList.push(task);
   }
   function deleteTask(e) {
-    if (e.target.classList.contains('remove')) {
-      let itemId = e.target.parentElement.getAttribute('data_id');
-      itemList.splice(itemId, 1);
-      displayList();
-    }
+    let itemId = e.target.parentElement.getAttribute('data_id');
+    itemList.splice(itemId, 1);
+    displayList();
   }
   return { newTask, deleteTask };
 })();
