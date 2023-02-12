@@ -126,12 +126,13 @@ form h1 {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    align-items: center;
+    /* align-items: center; */
     padding: 4vh;
     overflow: scroll;
 }
 .tasks li:hover {
     background-color: rgba(128, 128, 128, 0.177);
+    cursor: pointer;
 }
 .remove {
     background-color: red;
@@ -142,14 +143,43 @@ form h1 {
     gap: 2vh;
 }
 .Low {
-    background-color: green;
+    background-color: #84cc16;
 }
 .Medium {
-    background-color: orange;
+    background-color: #f59e0b;
 }
 .High {
-    background-color: orangered;
+    background-color: #f97316;
 }
 .ASAP {
-    background-color: red;
+    background-color: #dc2626;
+}
+.edit {
+    border: 1px solid black;
+    border-radius: 20px;
+    width: 5vh;
+    text-align: center;
+    background-color: #84cc16;
+}
+.edit:hover {
+    cursor: pointer;
+    background-color: #4d7c0f;
+}
+.remove:hover {
+    cursor: pointer;
+    background-color: #b91c1c;
+}
+.closeModal {
+    text-align: end;
+}
+.editor {
+    display: flex;
+    gap: 1vh;
+}
+.editDescription {
+  line-height: normal;
+  width: auto;
+  text-align: left;
+  column-count: initial;
+  overflow-wrap: break-word;
 }

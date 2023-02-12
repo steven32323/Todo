@@ -1,7 +1,7 @@
 'use strict';
 import './style.css';
 import tasks from './tasks';
-import { itemList } from './tasks';
+import { itemList, updateTask } from './tasks';
 
 const body = document.querySelector('body');
 const createPage = function () {
@@ -91,7 +91,7 @@ export function displayList() {
   itemList.forEach((item, i) => {
     const html = `
       <li>
-      <div class="listItem data_id="${i}">${item.title}</div> <div class="itemInfo" data_id="${i}">${item.dueDate} <span class="descriptionIcon">i</span> <span class="${item.priority}">${item.priority}</span><button class="remove">Remove</div>
+      <div class="listItem data_id="${i}">${item.title}</div> <div class="itemInfo" data_id="${i}">${item.dueDate} <span class="edit">Edit</span><span class="descriptionIcon">i</span> <span class="${item.priority}">${item.priority}</span><button class="remove">Remove</div>
       </li> 
       </div>`;
     taskList.innerHTML += html;
@@ -104,14 +104,15 @@ taskList.addEventListener('click', e => {
   }
   if (e.target.classList.contains('descriptionIcon')) {
     overlay.classList.remove('hidden');
+    let itemId = e.target.parentElement.getAttribute('data_id');
     let html = `
     <div class="modal details">
     <div class="closeModal">X</div>
-        <div><h3>Title:</h3> ${itemList[0].title}</div>
+        <div><h3>Title:</h3> ${itemList[itemId].title}</div>
         <div><h3>Description:</h3> </div>
-        <div>${itemList[0].description}</div>
-        <div><h3>Due Date:</h3> ${itemList[0].dueDate}</div>
-        <div><h3>Priority:</h3> ${itemList[0].priority}</div>
+        <div>${itemList[itemId].description}</div>
+        <div><h3>Due Date:</h3> ${itemList[itemId].dueDate}</div>
+        <div><h3>Priority:</h3> ${itemList[itemId].priority}</div>
     </div>`;
     body.insertAdjacentHTML('afterbegin', html);
     const closeModalWindow = document.querySelector('.closeModal');
@@ -119,6 +120,59 @@ taskList.addEventListener('click', e => {
       const descriptionDetails = document.querySelector('.modal.details');
       descriptionDetails.remove();
       closeModal();
+    });
+  }
+  if (e.target.classList.contains('edit')) {
+    overlay.classList.remove('hidden');
+    let itemId = e.target.parentElement.getAttribute('data_id');
+    let html = `
+    <form class="modal editor">
+        <div class="closeModal">X</div>
+        <h1>Edit this ToDo list</h1>
+        <input type="text" class="title" value="${itemList[itemId].title}">
+        <textarea class="editDescription" rows="3" style="width: 100%; box-sizing: border-box;">${itemList[itemId].description}</textarea>
+        <input type="date" class="dueDate" value="${itemList[itemId].dueDate}">
+        <label for="priority">Priority:</label>
+
+        <select name="priorityInput" id="priorityInput">
+            <option value="default">${itemList[itemId].priority}</option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+            <option value="ASAP">ASAP</option>
+        </select>
+
+        <button type="submit" class="btn-submit">Confirm Edit</button>
+</form>`;
+    body.insertAdjacentHTML('afterbegin', html);
+    const closeModalWindow = document.querySelector('.closeModal');
+    closeModalWindow.addEventListener('click', () => {
+      const EditDetails = document.querySelector('.modal.editor');
+      EditDetails.remove();
+      closeModal();
+      return;
+    });
+    const editSubmit = document.querySelector('.editor');
+    const titleInput2 = document.querySelector('.title');
+    const descriptionInput2 = document.querySelector('.editDescription');
+    const dueDateInput2 = document.querySelector('.dueDate');
+    const priorityInput2 = document.querySelector('#priorityInput');
+    // const titleInput2Value = titleInput2.value;
+    // const descriptionInput2Value = descriptionInput2.value;
+    // const dueDateInput2Value = dueDateInput2.value;
+    // const priorityInput2Value = priorityInput2.value;
+    editSubmit.addEventListener('submit', e => {
+      e.preventDefault();
+      tasks.updateTask(
+        itemId,
+        titleInput2.value,
+        descriptionInput2.value,
+        dueDateInput2.value,
+        priorityInput2.value
+      );
+      displayList();
+      closeModal();
+      editSubmit.remove();
     });
   }
 });

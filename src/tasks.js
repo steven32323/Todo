@@ -4,7 +4,7 @@ export const itemList = [
   {
     title: 'hello',
     description: 'This is a more detailed Description',
-    dueDate: '15-2-23',
+    dueDate: '2023-02-23',
     priority: 'High',
   },
 ];
@@ -26,7 +26,11 @@ const tasks = (() => {
     itemList.splice(itemId, 1);
     displayList();
   }
-  return { newTask, deleteTask };
+  function updateTask(itemId, title, description, dueDate, priority) {
+    itemList[itemId] = { title, description, dueDate, priority };
+    displayList();
+  }
+  return { newTask, deleteTask, updateTask };
 })();
 
 export default tasks;
