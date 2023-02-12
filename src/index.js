@@ -3,7 +3,7 @@ import './style.css';
 import tasks from './tasks';
 import { itemList, updateTask } from './tasks';
 import projects from './projects';
-import { projectList } from './projects';
+// import { projectList } from './projects';
 import { isExists } from 'date-fns';
 
 const body = document.querySelector('body');
@@ -30,7 +30,9 @@ const createPage = function (projectTitle = 'Example Project') {
     </form>
     <div class="left">
     <button class="newProject"> +</button>
-        <button class="projectListItem">${projectTitle}</button>
+    <ul class="projects">
+        <li class="projectListItem">${projectTitle}</li>
+    </ul>
     </div>
     <div class="right">
     <button class="addItem"> +</button>
@@ -54,6 +56,7 @@ const titleInput = document.querySelector('.title');
 const descriptionInput = document.querySelector('.description');
 const dueDateInput = document.querySelector('.dueDate');
 const priorityInput = document.querySelector('#priorityInput');
+const projectDOM = document.querySelector('.projects');
 
 // Add Item button, event listener and funcion call
 const addItem = document.querySelector('.addItem');
@@ -94,6 +97,7 @@ form.addEventListener('submit', function (e) {
 // display values in DOM
 export function displayList() {
   taskList.innerHTML = '';
+  projectDOM.innerHTML = '';
   itemList.forEach((item, i) => {
     const html = `
       <li>
@@ -102,6 +106,14 @@ export function displayList() {
       </div>`;
     taskList.innerHTML += html;
   });
+  const html = projects.projectList
+    .map((project, i) => {
+      return `<ul class="projects">
+      <li class="project" data_project="${i}">${project.title}</li>
+    </ul>`;
+    })
+    .join('');
+  projectDOM.innerHTML = html;
 }
 
 taskList.addEventListener('click', e => {
@@ -206,6 +218,7 @@ addProject.addEventListener('click', () => {
   projectAdd.addEventListener('submit', e => {
     e.preventDefault();
     const projectTitle = document.querySelector('.title');
+
     console.log(projectTitle.value);
     projects.newProject(projectTitle.value);
     const newProject = document.querySelector('.modal.project');
@@ -227,3 +240,7 @@ addProject.addEventListener('click', () => {
 //  Priority
 //  }
 //  ]
+
+////////////////////////////////////
+// TODO
+// create todo project functionality, change code to link tasks into projects, then you're done!

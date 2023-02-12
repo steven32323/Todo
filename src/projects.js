@@ -28,7 +28,7 @@ const projects = (() => {
     projectList.push(project);
     displayList();
   }
-  return { newProject };
+  return { newProject, projectList };
 })();
 
 export default projects;
