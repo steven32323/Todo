@@ -1,4 +1,5 @@
 import { displayList } from '.';
+import projects from './projects';
 
 export const itemList = [
   {

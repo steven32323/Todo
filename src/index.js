@@ -2,9 +2,12 @@
 import './style.css';
 import tasks from './tasks';
 import { itemList, updateTask } from './tasks';
+import projects from './projects';
+import { projectList } from './projects';
+import { isExists } from 'date-fns';
 
 const body = document.querySelector('body');
-const createPage = function () {
+const createPage = function (projectTitle = 'Example Project') {
   const html = `
 <div class="container">
 <div class="header"><h1>Shit List</h1></div>
@@ -26,7 +29,8 @@ const createPage = function () {
         <button type="submit" class="btn-submit">Add item</button>
     </form>
     <div class="left">
-        <button class="projectListItem">Painting</button>
+    <button class="newProject"> +</button>
+        <button class="projectListItem">${projectTitle}</button>
     </div>
     <div class="right">
     <button class="addItem"> +</button>
@@ -59,6 +63,8 @@ const overlay = document.querySelector('.overlay');
 const leftSide = document.querySelector('.left');
 const taskList = document.querySelector('.tasks');
 
+//////////////////////////////////////////////////////////////////
+// All task related functions/methods (right side of app)
 addItem.addEventListener('click', () => {
   overlay.classList.remove('hidden');
   form.classList.remove('hidden');
@@ -74,7 +80,7 @@ form.addEventListener('submit', function (e) {
   const title = titleInput.value;
   const description = descriptionInput.value;
   const dueDate = dueDateInput.value;
-  console.log(priorityInput);
+  //   console.log(priorityInput);
   const priority = priorityInput.value;
   form.reset();
 
@@ -157,10 +163,6 @@ taskList.addEventListener('click', e => {
     const descriptionInput2 = document.querySelector('.editDescription');
     const dueDateInput2 = document.querySelector('.dueDate');
     const priorityInput2 = document.querySelector('#priorityInput');
-    // const titleInput2Value = titleInput2.value;
-    // const descriptionInput2Value = descriptionInput2.value;
-    // const dueDateInput2Value = dueDateInput2.value;
-    // const priorityInput2Value = priorityInput2.value;
     editSubmit.addEventListener('submit', e => {
       e.preventDefault();
       tasks.updateTask(
@@ -178,3 +180,50 @@ taskList.addEventListener('click', e => {
 });
 
 displayList();
+
+/////////////////////////////////////////////////////////////////////////
+// All project related functions/methods (right side of app)
+const addProject = document.querySelector('.newProject');
+addProject.addEventListener('click', () => {
+  let html = `
+  <form class="modal project">
+  <button class="exit">X</button>
+  <p>Create a New Project</p>
+    <input type="text" class ="title" placeholder="title" required>
+    <button type="submit">Create</button>
+  </div>
+    
+    `;
+  overlay.classList.remove('hidden');
+  body.insertAdjacentHTML('afterbegin', html);
+  const close = document.querySelector('.exit');
+  close.addEventListener('click', () => {
+    const newProject = document.querySelector('.modal.project');
+    newProject.remove();
+    closeModal();
+  });
+  const projectAdd = document.querySelector('.project');
+  projectAdd.addEventListener('submit', e => {
+    e.preventDefault();
+    const projectTitle = document.querySelector('.title');
+    console.log(projectTitle.value);
+    projects.newProject(projectTitle.value);
+    const newProject = document.querySelector('.modal.project');
+    newProject.remove();
+    closeModal();
+  });
+});
+
+////////////////////////////////////////////////////
+//  Project [
+//  name
+//  index
+
+//  {
+//  tasks
+//  name
+//  description
+//  dueDate
+//  Priority
+//  }
+//  ]
