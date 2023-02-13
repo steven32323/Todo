@@ -10,7 +10,7 @@ const body = document.querySelector('body');
 const createPage = function (projectTitle = 'Example Project') {
   const html = `
 <div class="container">
-<div class="header"><h1>Shit List</h1></div>
+<div class="header"><h1>✔️ToDo</h1></div>
 <div class="body">
     <form class="modal hidden">
         <h1>Add an item to this ToDo list</h1>
@@ -66,6 +66,8 @@ const overlay = document.querySelector('.overlay');
 const leftSide = document.querySelector('.left');
 const taskList = document.querySelector('.tasks');
 
+export let currentProject = 0;
+
 //////////////////////////////////////////////////////////////////
 // All task related functions/methods (right side of app)
 addItem.addEventListener('click', () => {
@@ -88,9 +90,9 @@ form.addEventListener('submit', function (e) {
   form.reset();
 
   //pass values into newItem module
-  tasks.newTask(title, description, dueDate, priority);
+  tasks.newTask(currentProject, title, description, dueDate, priority);
   //   console.log(...itemList);
-  displayTasks();
+  displayTasks(currentProject);
   closeModal();
 });
 
@@ -119,81 +121,83 @@ export function displayTasks(projectId = 0) {
     .join('');
   taskList.innerHTML = tasksHtml;
 }
-// taskList.addEventListener('click', e => {
-//   if (e.target.classList.contains('remove')) {
-//     tasks.deleteTask(e), displayTasks();
-//   }
-//   if (e.target.classList.contains('descriptionIcon')) {
-//     overlay.classList.remove('hidden');
-//     let itemId = e.target.parentElement.getAttribute('data_id');
-//     let html = `
-//     <div class="modal details">
-//     <div class="closeModal">X</div>
-//         <div><h3>Title:</h3> ${itemList[itemId].title}</div>
-//         <div><h3>Description:</h3> </div>
-//         <div>${itemList[itemId].description}</div>
-//         <div><h3>Due Date:</h3> ${itemList[itemId].dueDate}</div>
-//         <div><h3>Priority:</h3> ${itemList[itemId].priority}</div>
-//     </div>`;
-//     body.insertAdjacentHTML('afterbegin', html);
-//     const closeModalWindow = document.querySelector('.closeModal');
-//     closeModalWindow.addEventListener('click', () => {
-//       const descriptionDetails = document.querySelector('.modal.details');
-//       descriptionDetails.remove();
-//       closeModal();
-//     });
-//   }
-//   if (e.target.classList.contains('edit')) {
-//     overlay.classList.remove('hidden');
-//     let itemId = e.target.parentElement.getAttribute('data_id');
-//     let html = `
-//     <form class="modal editor">
-//         <div class="closeModal">X</div>
-//         <h1>Edit this ToDo list</h1>
-//         <input type="text" class="title" value="${itemList[itemId].title}">
-//         <textarea class="editDescription" rows="3" style="width: 100%; box-sizing: border-box;">${itemList[itemId].description}</textarea>
-//         <input type="date" class="dueDate" value="${itemList[itemId].dueDate}">
-//         <label for="priority">Priority:</label>
+taskList.addEventListener('click', e => {
+  if (e.target.classList.contains('remove')) {
+    tasks.deleteTask(e), displayTasks();
+  }
+  if (e.target.classList.contains('descriptionIcon')) {
+    overlay.classList.remove('hidden');
+    let itemId = e.target.parentElement.getAttribute('data_id');
+    let html = `
+    <div class="modal details">
+    <div class="closeModal">X</div>
+        <div><h3>Title:</h3> ${projects.projectList[currentProject].tasks[itemId].title}</div>
+        <div><h3>Description:</h3> </div>
+        <div>${projects.projectList[currentProject].tasks[itemId].description}</div>
+        <div><h3>Due Date:</h3> ${projects.projectList[currentProject].tasks[itemId].dueDate}</div>
+        <div><h3>Priority:</h3> ${projects.projectList[currentProject].tasks[itemId].priority}</div>
+    </div>`;
+    body.insertAdjacentHTML('afterbegin', html);
+    const closeModalWindow = document.querySelector('.closeModal');
+    closeModalWindow.addEventListener('click', () => {
+      const descriptionDetails = document.querySelector('.modal.details');
+      descriptionDetails.remove();
+      closeModal();
+    });
+  }
+  if (e.target.classList.contains('edit')) {
+    overlay.classList.remove('hidden');
+    let itemId = e.target.parentElement.getAttribute('data_id');
+    let html = `
+      <form class="modal editor">
+          <div class="closeModal">X</div>
+          <h1>Edit this ToDo list</h1>
+          <input type="text" class="title" value="${projects.projectList[currentProject].tasks[itemId].title}">
+          <textarea class="editDescription" rows="3" style="width: 100%; box-sizing: border-box;">${projects.projectList[currentProject].tasks[itemId].description}</textarea>
+          <input type="date" class="dueDate" value="${projects.projectList[currentProject].tasks[itemId].dueDate}">
+          <label for="priority">Priority:</label>
 
-//         <select name="priorityInput" id="priorityInput">
-//             <option value="default">${itemList[itemId].priority}</option>
-//             <option value="Low">Low</option>
-//             <option value="Medium">Medium</option>
-//             <option value="High">High</option>
-//             <option value="ASAP">ASAP</option>
-//         </select>
+          <select name="priorityInput" id="priorityInput">
+              <option>${projects.projectList[currentProject].tasks[itemId].priority}</option>
+              <option value="Low">Low</option>
+              <option value="Medium">Medium</option>
+              <option value="High">High</option>
+              <option value="ASAP">ASAP</option>
+          </select>
 
-//         <button type="submit" class="btn-submit">Confirm Edit</button>
-// </form>`;
-//     body.insertAdjacentHTML('afterbegin', html);
-//     const closeModalWindow = document.querySelector('.closeModal');
-//     closeModalWindow.addEventListener('click', () => {
-//       const EditDetails = document.querySelector('.modal.editor');
-//       EditDetails.remove();
-//       closeModal();
-//       return;
-//     });
-//     const editSubmit = document.querySelector('.editor');
-//     const titleInput2 = document.querySelector('.title');
-//     const descriptionInput2 = document.querySelector('.editDescription');
-//     const dueDateInput2 = document.querySelector('.dueDate');
-//     const priorityInput2 = document.querySelector('#priorityInput');
-//     editSubmit.addEventListener('submit', e => {
-//       e.preventDefault();
-//       tasks.updateTask(
-//         itemId,
-//         titleInput2.value,
-//         descriptionInput2.value,
-//         dueDateInput2.value,
-//         priorityInput2.value
-//       );
-//       displayTasks();
-//       closeModal();
-//       editSubmit.remove();
-//     });
-//   }
-// });
+          <button type="submit" class="btn-submit">Confirm Edit</button>
+  </form>`;
+    body.insertAdjacentHTML('afterbegin', html);
+    const closeModalWindow = document.querySelector('.closeModal');
+    closeModalWindow.addEventListener('click', () => {
+      const EditDetails = document.querySelector('.modal.editor');
+      EditDetails.remove();
+      closeModal();
+      return;
+    });
+    const editSubmit = document.querySelector('.editor');
+    const titleInput2 = document.querySelector('.title');
+    const descriptionInput2 = document.querySelector('.editDescription');
+    const dueDateInput2 = document.querySelector('.dueDate');
+    const priorityInput2 = document.querySelector('#priorityInput');
+    editSubmit.addEventListener('submit', e => {
+      e.preventDefault();
+      tasks.updateTask(
+        currentProject,
+        itemId,
+        titleInput2.value,
+        descriptionInput2.value,
+        dueDateInput2.value,
+        priorityInput2.value
+      );
+      displayTasks(currentProject);
+      closeModal();
+      editSubmit.remove();
+    });
+  }
+});
 
+//initialises the app
 function init() {
   displayProjects();
   displayTasks();
@@ -234,11 +238,19 @@ addProject.addEventListener('click', () => {
   });
 });
 
+// controls project buttons, changes task list and styling
 projectDOM.addEventListener('click', e => {
   if (e.target.classList.contains('projectListItem')) {
     let projectId = e.target.getAttribute('data_project');
-    console.log(projectId);
-    displayTasks(projectId);
+    currentProject = projectId;
+    const projectBtn = document.querySelectorAll('.projectListItem');
+    projectBtn.forEach(button => {
+      button.addEventListener('click', e => {
+        projectBtn.forEach(b => b.classList.remove('clicked'));
+      });
+      e.target.classList.add('clicked');
+      displayTasks(projectId);
+    });
   }
 });
 ////////////////////////////////////////////////////

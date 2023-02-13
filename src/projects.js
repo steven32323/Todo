@@ -15,7 +15,7 @@ const projects = (() => {
       title: 'New Project',
       tasks: [
         {
-          title: 'delete a new project',
+          title: 'Delete a new project',
           description: 'the same as above, but a little bit longer',
           dueDate: '2023-10-10',
           priority: 'High',
@@ -27,9 +27,10 @@ const projects = (() => {
       tasks: [
         {
           title: 'Add a new project',
-          description: 'not the same as above, but a little bit longer',
+          description:
+            'not the same as above, but also a little bit longer too',
           dueDate: '2022-01-11',
-          priority: 'low',
+          priority: 'Low',
         },
       ],
     },

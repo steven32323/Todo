@@ -1,4 +1,4 @@
-import { displayTasks, displayProjects } from '.';
+import { displayTasks, currentProject } from '.';
 import projects from './projects';
 
 export const itemList = [
@@ -18,18 +18,30 @@ const tasks = (() => {
       this.priority = priority;
     }
   }
-  function newTask(title, description, dueDate, priority) {
+  function newTask(currentProject, title, description, dueDate, priority) {
     const task = new Task(title, description, dueDate, priority);
-    itemList.push(task);
+    projects.projectList[currentProject].tasks.push(task);
   }
   function deleteTask(e) {
     let itemId = e.target.parentElement.getAttribute('data_id');
-    itemList.splice(itemId, 1);
-    displayTasks();
+    projects.projectList[currentProject].tasks.splice(itemId, 1);
+    displayTasks(currentProject);
   }
-  function updateTask(itemId, title, description, dueDate, priority) {
-    itemList[itemId] = { title, description, dueDate, priority };
-    displayTasks();
+  function updateTask(
+    currentProject,
+    itemId,
+    title,
+    description,
+    dueDate,
+    priority
+  ) {
+    projects.projectList[currentProject].tasks[itemId] = {
+      title,
+      description,
+      dueDate,
+      priority,
+    };
+    displayTasks(currentProject);
   }
   return { newTask, deleteTask, updateTask };
 })();
