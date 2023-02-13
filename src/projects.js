@@ -1,6 +1,6 @@
 'use strict';
 
-import { displayList } from '.';
+import { displayTasks, displayProjects } from '.';
 
 const projects = (() => {
   let projectList = [];
@@ -15,10 +15,21 @@ const projects = (() => {
       title: 'New Project',
       tasks: [
         {
-          title: 'Add a new project',
+          title: 'delete a new project',
           description: 'the same as above, but a little bit longer',
           dueDate: '2023-10-10',
           priority: 'High',
+        },
+      ],
+    },
+    {
+      title: 'New Project part 2',
+      tasks: [
+        {
+          title: 'Add a new project',
+          description: 'not the same as above, but a little bit longer',
+          dueDate: '2022-01-11',
+          priority: 'low',
         },
       ],
     },
@@ -26,7 +37,7 @@ const projects = (() => {
   function newProject(title) {
     const project = new Project(title);
     projectList.push(project);
-    displayList();
+    displayProjects();
   }
   return { newProject, projectList };
 })();

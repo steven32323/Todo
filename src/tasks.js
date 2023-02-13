@@ -1,4 +1,4 @@
-import { displayList } from '.';
+import { displayTasks, displayProjects } from '.';
 import projects from './projects';
 
 export const itemList = [
@@ -25,11 +25,11 @@ const tasks = (() => {
   function deleteTask(e) {
     let itemId = e.target.parentElement.getAttribute('data_id');
     itemList.splice(itemId, 1);
-    displayList();
+    displayTasks();
   }
   function updateTask(itemId, title, description, dueDate, priority) {
     itemList[itemId] = { title, description, dueDate, priority };
-    displayList();
+    displayTasks();
   }
   return { newTask, deleteTask, updateTask };
 })();
