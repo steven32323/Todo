@@ -2,6 +2,10 @@
 import './style.css';
 import tasks from './tasks';
 import projects from './projects';
+import '@fortawesome/fontawesome-free/js/fontawesome';
+import '@fortawesome/fontawesome-free/js/solid';
+import '@fortawesome/fontawesome-free/js/regular';
+import '@fortawesome/fontawesome-free/js/brands';
 
 const body = document.querySelector('body');
 const createPage = function (projectTitle = 'Example Project') {
@@ -41,7 +45,8 @@ const createPage = function (projectTitle = 'Example Project') {
     </div>
 </div>
 <div class="overlay hidden"></div>
-</div>`;
+</div>
+<footer class="footer"> Steven Smith 2023 <a target="_blank" href="https://github.com/steven32323"><i class="fab fa-github"></i></a></footer>`;
 
   body.innerHTML = html;
 };
