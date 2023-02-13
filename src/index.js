@@ -1,10 +1,7 @@
 'use strict';
 import './style.css';
 import tasks from './tasks';
-import { updateTask } from './tasks';
 import projects from './projects';
-// import { projectList } from './projects';
-import { isExists } from 'date-fns';
 
 const body = document.querySelector('body');
 const createPage = function (projectTitle = 'Example Project') {
@@ -106,6 +103,8 @@ export function displayProjects() {
     })
     .join('');
   projectDOM.innerHTML = projectsHtml;
+  // saves current state of projects/tasks to local storage
+  localStorage.setItem('projects', JSON.stringify(projects.projectList));
   displayTasks();
 }
 
@@ -120,7 +119,11 @@ export function displayTasks(projectId = 0) {
     })
     .join('');
   taskList.innerHTML = tasksHtml;
+  // saves current state of projects/tasks to local storage
+  localStorage.setItem('projects', JSON.stringify(projects.projectList));
 }
+
+// Edit and remove task functions
 taskList.addEventListener('click', e => {
   if (e.target.classList.contains('remove')) {
     tasks.deleteTask(e), displayTasks();
@@ -205,7 +208,7 @@ function init() {
 
 init();
 /////////////////////////////////////////////////////////////////////////
-// All project related functions/methods (right side of app)
+// All project related functions/methods (left side of app)
 const addProject = document.querySelector('.newProject');
 addProject.addEventListener('click', () => {
   let html = `
